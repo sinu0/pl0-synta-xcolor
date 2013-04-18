@@ -12,14 +12,18 @@ char* header(){
 }
 
 char* convertTokenToHtml(struct Token* token,char **colorTable){
-  if(token->type == whitespace)
-	  return token->buffer;
+  
   char *buffer =(char*)malloc(sizeof(char)*2048);
   if(buffer == NULL){
       perror("problem with malloc:");
       exit(EXIT_FAILURE);
   }
+
   memset(buffer,'\0',2048);
+  if(token->type == whitespace){
+    strcat(buffer,token->buffer);
+    return buffer;
+  }
   strcat(buffer,"<font color=#");
   strcat(buffer,colorTable[token->type]);
   strcat(buffer,">");
@@ -32,21 +36,18 @@ void converToHtml(char *path,char **colorTable)
    struct File file=init(path);
    struct Token token;
    FILE *f = createFile("./output.html");
-   appendTofile(header(),f);
+   fwrite(header(),sizeof(char),strlen(header()),f);
    while(token.type != eof){
        token = scan(&file);
        appendTofile(convertTokenToHtml(&token,colorTable),f); 
    }
-   appendTofile(bottom(),f);
+   fwrite(bottom(),sizeof(char),strlen(bottom()),f);
    fclose(f);
 }
 
 void appendTofile(char* string,FILE *file){
   fwrite(string,sizeof(char),strlen(string),file);
-  if(string!=NULL){
-    free(string);
-    string=NULL;
-  }
+  free(string);  
 }
 
 FILE* createFile(char* name)
