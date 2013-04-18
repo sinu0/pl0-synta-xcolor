@@ -43,7 +43,10 @@ void converToHtml(char *path,char **colorTable)
 
 void appendTofile(char* string,FILE *file){
   fwrite(string,sizeof(char),strlen(string),file);
-  //free(string);
+  if(string!=NULL){
+    free(string);
+    string=NULL;
+  }
 }
 
 FILE* createFile(char* name)
