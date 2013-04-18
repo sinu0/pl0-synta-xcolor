@@ -1,6 +1,6 @@
 #include <fcntl.h>
 
-#include "Generator.h"
+#include "../include/Generator.h"
 #include "errno.h"
 #include "stdlib.h"
 #include <stdio.h>

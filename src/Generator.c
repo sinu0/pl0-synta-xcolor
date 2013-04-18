@@ -1,6 +1,6 @@
 #include <fcntl.h>
-#include "Scanner.h"
-#include "Generator.h"
+#include "../include/Scanner.h"
+#include "../include/Generator.h"
 #include <stdlib.h>
 
 char* bottom(){
@@ -12,7 +12,8 @@ char* header(){
 }
 
 char* convertTokenToHtml(struct Token* token,char **colorTable){
-  
+  if(token->type == whitespace)
+	  return token->buffer;
   char *buffer =(char*)malloc(sizeof(char)*2048);
   if(buffer == NULL){
       perror("problem with malloc:");
@@ -34,7 +35,6 @@ void converToHtml(char *path,char **colorTable)
    appendTofile(header(),f);
    while(token.type != eof){
        token = scan(&file);
-       printf("%s",token.buffer);
        appendTofile(convertTokenToHtml(&token,colorTable),f); 
    }
    appendTofile(bottom(),f);
