@@ -1,10 +1,10 @@
 #include <fcntl.h>
 #include <X11/Xlib.h>
-#include "Scanner.h"
+#include "../include/Scanner.h"
 #include "errno.h"
 #include "stdlib.h"
 #include <ctype.h>
-
+#include <stdbool.h>
 
 
 
